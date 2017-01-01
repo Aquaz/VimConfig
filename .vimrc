@@ -52,6 +52,8 @@ Plugin 'vim-scripts/ctags.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 " Right hand side bar
 Plugin 'majutsushi/tagbar'
+" C++ coge navigation
+Plugin 'lyuts/vim-rtags'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -121,7 +123,6 @@ autocmd WinEnter * call NERDTreeQuit()
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 
 
-
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
@@ -154,7 +155,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-
+let g:syntastic_cpp_config_file = '.syntastic_cpp_config'
 
 " NERD COMMENTER
 let mapleader=","
@@ -188,22 +189,27 @@ let g:move_key_modifier = 'C'
 
 " vim-easymotion
 " <Leader>f{char} to move to {char}
-map  <Leader>f <Plug>(easymotion-bd-f)
-nmap <Leader>f <Plug>(easymotion-overwin-f)
+ map  <Leader>f <Plug>(easymotion-bd-f)
+ nmap <Leader>f <Plug>(easymotion-overwin-f)
 
 " s{char}{char} to move to {char}{char}
-nmap s <Plug>(easymotion-overwin-f2)
+" nmap s <Plug>(easymotion-overwin-f2)
 
 " Move to line
-map <Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader>L <Plug>(easymotion-overwin-line)
+ map <Leader>L <Plug>(easymotion-bd-jk)
+ nmap <Leader>L <Plug>(easymotion-overwin-line)
 
 " Move to word
-map  <Leader>w <Plug>(easymotion-bd-w)
-nmap <Leader>w <Plug>(easymotion-overwin-w)
+ map  <Leader>w <Plug>(easymotion-bd-w)
+ nmap <Leader>w <Plug>(easymotion-overwin-w)
 
 " CtrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 " Tagbar
 nmap <F8> :TagbarToggle<CR>
+
+" Switch header/source 
+map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
+" Rtags
+let g:rtagsUseLocationList = 0
