@@ -230,7 +230,6 @@ source ~/cscope_maps.vim
 
 nnoremap <leader>. :CtrlPTag<cr>
 
-Smart window movement
 " map <C-j> <C-W>j
 " map <C-h> <C-W>h
 " map <C-k> <C-W>k
