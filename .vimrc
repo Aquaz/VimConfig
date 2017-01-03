@@ -1,3 +1,4 @@
+set shell=/bin/bash
 set nocompatible
 
 set title
@@ -53,7 +54,14 @@ Plugin 'ctrlpvim/ctrlp.vim'
 " Right hand side bar
 Plugin 'majutsushi/tagbar'
 " C++ coge navigation
-Plugin 'lyuts/vim-rtags'
+"Plugin 'lyuts/vim-rtags'
+" NerdTree
+Plugin 'scrooloose/nerdtree'
+" C++ highlighting
+Plugin 'octol/vim-cpp-enhanced-highlight'
+" vim airline
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -84,8 +92,8 @@ highlight Normal ctermbg=NONE
 highlight nonText ctermbg=NONE
 
 
-execute pathogen#infect()
-call pathogen#helptags()
+" execute pathogen#infect()
+" call pathogen#helptags()
 
 filetype plugin indent on
 syntax on
@@ -213,3 +221,39 @@ nmap <F8> :TagbarToggle<CR>
 map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
 " Rtags
 let g:rtagsUseLocationList = 0
+
+
+"Clang complete
+let g:clang_library_path='/home/seb/clang/clang+llvm-3.9.1-x86_64-linux-gnu-debian8/lib/'
+let g:clang_auto_select=1
+let g:clang_complete_auto=0
+let g:clang_complete_copen=1
+let g:clang_hl_errors=1
+let g:clang_periodic_quickfix=0
+let g:clang_snippets_engine="clang_complete"
+let g:clang_snippets=1
+let g:clang_conceal_snippets=1
+let g:clang_exec="clang"
+let g:clang_user_options=""
+let g:clang_auto_user_options="path, .clang_complete"
+let g:clang_use_library=1
+let g:clang_sort_algo="priority"
+let g:clang_complete_macros=1
+let g:clang_complete_patterns=0
+nnoremap <Leader>q :call g:ClangUpdateQuickFix()<CR>
+let g:clic_filename="/home/seb/Desktop/inventory_manager/unix/devl/project-index/index.db"
+"Smart window movement
+" map <C-j> <C-W>j
+" map <C-h> <C-W>h
+" map <C-k> <C-W>k
+" map <C-l> <C-W>l
+"
+" CSCOPE
+source ~/cscope_maps.vim
+
+" CTAGS
+nnoremap <leader>. :CtrlPTag<cr>
+" C++ highlighting options
+let g:cpp_class_scope_highlight = 1
+let g:cpp_experimental_template_highlight = 1
+let g:airline#extensions#tabline#enabled = 1
