@@ -1,3 +1,4 @@
+set shell=/bin/bash
 set nocompatible
 
 set title
@@ -54,6 +55,14 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'majutsushi/tagbar'
 " C++ coge navigation
 Plugin 'lyuts/vim-rtags'
+" NerdTree
+Plugin 'scrooloose/nerdtree'
+" C++ highlighting
+Plugin 'octol/vim-cpp-enhanced-highlight'
+" vim airline
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'rdnetto/YCM-Generator'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -84,8 +93,8 @@ highlight Normal ctermbg=NONE
 highlight nonText ctermbg=NONE
 
 
-execute pathogen#infect()
-call pathogen#helptags()
+" execute pathogen#infect()
+" call pathogen#helptags()
 
 filetype plugin indent on
 syntax on
@@ -121,6 +130,7 @@ autocmd WinEnter * call NERDTreeQuit()
 
 " YouCompleteMe
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+"let g:ycm_global_ycm_extra_conf = '/home/sebbie/REGoth/.ycm_extra_conf.py'
 
 
 " vim-javascript
@@ -213,3 +223,21 @@ nmap <F8> :TagbarToggle<CR>
 map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
 " Rtags
 let g:rtagsUseLocationList = 0
+
+" CSCOPE
+source ~/cscope_maps.vim
+
+
+nnoremap <leader>. :CtrlPTag<cr>
+
+Smart window movement
+" map <C-j> <C-W>j
+" map <C-h> <C-W>h
+" map <C-k> <C-W>k
+" map <C-l> <C-W>l
+"
+
+" C++ highlighting options
+let g:cpp_class_scope_highlight = 1
+let g:cpp_experimental_template_highlight = 1
+let g:airline#extensions#tabline#enabled = 1
