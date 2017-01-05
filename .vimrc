@@ -4,18 +4,22 @@ set nocompatible
 set title
 set number
 set ruler
-set wrap
-
+set nowrap
+set encoding=utf8
 set ignorecase
 set smartcase
 set expandtab   
-set shiftwidth=4
+set shiftwidth=3
 set autoindent  
 set smartindent 
 set cindent      
-set tabstop=4
+set tabstop=3
 set ignorecase
-set smartcase
+set noswapfile
+set hls
+set ai
+set si
+set cursorline
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -62,6 +66,7 @@ Plugin 'octol/vim-cpp-enhanced-highlight'
 " vim airline
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'rhysd/vim-clang-format'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -129,8 +134,7 @@ autocmd WinEnter * call NERDTreeQuit()
 
 " YouCompleteMe
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-
-
+let g:ycm_confirm_extra_conf = 0
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
@@ -256,4 +260,74 @@ nnoremap <leader>. :CtrlPTag<cr>
 " C++ highlighting options
 let g:cpp_class_scope_highlight = 1
 let g:cpp_experimental_template_highlight = 1
+" airline
 let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline#extensions#branch#enabled = 1
+" unicode symbols
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+" airline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+
+nnoremap <leader>jd :YcmCompleter GoTo<CR>
+
+" C++ implement method
+nmap <F5> :CopyDefinition<CR>
+nmap <F6> :ImplementDefinition<CR>
+command! CopyDefinition :call s:GetDefinitionInfo()
+command! ImplementDefinition :call s:ImplementDefinition()
+function! s:GetDefinitionInfo()
+  exe 'normal ma'
+  " Get class
+  call search('^\s*\<class\>', 'b')
+  exe 'normal ^w"ayw'
+  let s:class = @a
+  let l:ns = search('^\s*\<namespace\>', 'b')
+  " Get namespace
+  if l:ns != 0
+    exe 'normal ^w"ayw'
+    let s:namespace = @a
+  else
+    let s:namespace = ''
+  endif
+  " Go back to definition
+  exe 'normal `a'
+  exe 'normal "aY'
+  let s:defline = substitute(@a, ';\n', '', '')
+endfunction
+ 
+function! s:ImplementDefinition()
+  call append('.', s:defline)
+  exe 'normal j'
+  " Remove keywords
+  s/\<virtual\>\s*//e
+  s/\<static\>\s*//e
+  if s:namespace == ''
+    let l:classString = s:class . "::"
+  else
+    let l:classString = s:namespace . "::" . s:class . "::"
+  endif
+  " Remove default parameters
+  s/\s\{-}=\s\{-}[^,)]\{1,}//e
+  " Add class qualifier
+  exe 'normal ^f(bi' . l:classString
+  " Add brackets
+  exe "normal $o{\<CR>\<TAB>\<CR>}\<CR>\<ESC>kkkk"
+  " Fix indentation
+  exe 'normal =4j^'
+endfunction
+
+let g:clang_format#code_style='google'
+let g:clang_format#detect_style_file=1
+let g:clang_format#auto_format=0
+nmap <Leader>C :ClangFormatAutoToggle<CR>
