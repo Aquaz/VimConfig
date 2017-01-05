@@ -58,7 +58,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 " Right hand side bar
 Plugin 'majutsushi/tagbar'
 " C++ coge navigation
-"Plugin 'lyuts/vim-rtags'
+Plugin 'lyuts/vim-rtags'
 " NerdTree
 Plugin 'scrooloose/nerdtree'
 " C++ highlighting
@@ -135,6 +135,7 @@ autocmd WinEnter * call NERDTreeQuit()
 " YouCompleteMe
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 let g:ycm_confirm_extra_conf = 0
+
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
@@ -226,37 +227,18 @@ map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
 " Rtags
 let g:rtagsUseLocationList = 0
 
+" CSCOPE
+source ~/cscope_maps.vim
 
-"Clang complete
-let g:clang_library_path='/home/seb/clang/clang+llvm-3.9.1-x86_64-linux-gnu-debian8/lib/'
-let g:clang_auto_select=1
-let g:clang_complete_auto=0
-let g:clang_complete_copen=1
-let g:clang_hl_errors=1
-let g:clang_periodic_quickfix=0
-let g:clang_snippets_engine="clang_complete"
-let g:clang_snippets=1
-let g:clang_conceal_snippets=1
-let g:clang_exec="clang"
-let g:clang_user_options=""
-let g:clang_auto_user_options="path, .clang_complete"
-let g:clang_use_library=1
-let g:clang_sort_algo="priority"
-let g:clang_complete_macros=1
-let g:clang_complete_patterns=0
-nnoremap <Leader>q :call g:ClangUpdateQuickFix()<CR>
-let g:clic_filename="/home/seb/Desktop/inventory_manager/unix/devl/project-index/index.db"
-"Smart window movement
+
+nnoremap <leader>. :CtrlPTag<cr>
+
 " map <C-j> <C-W>j
 " map <C-h> <C-W>h
 " map <C-k> <C-W>k
 " map <C-l> <C-W>l
 "
-" CSCOPE
-source ~/cscope_maps.vim
 
-" CTAGS
-nnoremap <leader>. :CtrlPTag<cr>
 " C++ highlighting options
 let g:cpp_class_scope_highlight = 1
 let g:cpp_experimental_template_highlight = 1
