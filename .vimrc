@@ -67,6 +67,8 @@ Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'rhysd/vim-clang-format'
+Plugin 'powerline/fonts'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -196,8 +198,6 @@ let g:NERDTrimTrailingWhitespace = 1
 
 
 
-" vim-move
-let g:move_key_modifier = 'C'
 
 
 " vim-easymotion
@@ -219,7 +219,7 @@ let g:move_key_modifier = 'C'
 " CtrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
-" Tagbar
+let ctrlp_max_files=0
 nmap <F8> :TagbarToggle<CR>
 
 " Switch header/source 
@@ -232,12 +232,13 @@ source ~/cscope_maps.vim
 
 
 nnoremap <leader>. :CtrlPTag<cr>
+let g:ctrlp_working_path_mode=0
+" easy window easy window movement
+map <C-j> <C-W>j
+map <C-h> <C-W>h
+map <C-k> <C-W>k
+map <C-l> <C-W>l
 
-" map <C-j> <C-W>j
-" map <C-h> <C-W>h
-" map <C-k> <C-W>k
-" map <C-l> <C-W>l
-"
 
 " C++ highlighting options
 let g:cpp_class_scope_highlight = 1
@@ -262,7 +263,8 @@ let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
 
 nnoremap <leader>jd :YcmCompleter GoTo<CR>
-
+"turn off highlighting until next search
+nnoremap <leader>sh :noh<CR>
 " C++ implement method
 nmap <F5> :CopyDefinition<CR>
 nmap <F6> :ImplementDefinition<CR>
@@ -309,7 +311,22 @@ function! s:ImplementDefinition()
   exe 'normal =4j^'
 endfunction
 
-let g:clang_format#code_style='google'
+let g:clang_format#code_style='chromium'
 let g:clang_format#detect_style_file=1
 let g:clang_format#auto_format=0
 nmap <Leader>C :ClangFormatAutoToggle<CR>
+
+
+" Workaround for alt not being correctly recognized...
+let c='a'
+while c <= 'z'
+  exec "set <A-".c.">=\e".c
+  exec "imap \e".c." <A-".c.">"
+  let c = nr2char(1+char2nr(c))
+endw
+
+set timeout ttimeoutlen=50
+
+" vim-move
+let g:move_key_modifier = 'A'
+
