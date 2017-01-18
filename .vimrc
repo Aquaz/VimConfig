@@ -3,9 +3,12 @@ set nocompatible
 
 set title
 set number
+set relativenumber
 set ruler
 set nowrap
 set encoding=utf8
+set history=1000
+set undolevels=1000
 set ignorecase
 set smartcase
 set expandtab   
@@ -68,7 +71,12 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'rhysd/vim-clang-format'
 Plugin 'powerline/fonts'
-
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'luochen1990/rainbow'
+Plugin 'vim-scripts/DoxygenToolkit.vim'
+Plugin 'vim-scripts/FuzzyFinder'
+Plugin 'vim-scripts/L9'
+Plugin 'mileszs/ack.vim'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -87,6 +95,7 @@ filetype plugin indent on    " required
 " COLORS
 syntax enable
 set t_Co=256
+" colorscheme wombat256mod
 " set background=dark
 " colorscheme solarized 
 " colorscheme chroma
@@ -105,8 +114,8 @@ highlight nonText ctermbg=NONE
 filetype plugin indent on
 syntax on
 
-autocmd VimEnter * NERDTree
-autocmd VimEnter * wincmd p
+" autocmd VimEnter * NERDTree
+" autocmd VimEnter * wincmd p
 
 "Exiting Vim if NerdTree is the last buffer
 function! NERDTreeQuit()
@@ -134,10 +143,6 @@ endfunction
 autocmd WinEnter * call NERDTreeQuit()
 
 
-" YouCompleteMe
-let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-let g:ycm_confirm_extra_conf = 0
-
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
@@ -160,17 +165,25 @@ set conceallevel=1
 imap jk <Esc>
 
 
-
 " syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_cpp_config_file = '.syntastic_cpp_config'
+"""""""""""" syntastic
+let g:syntastic_check_on_open=0
+let g:syntastic_check_on_wq=0
+let g:syntastic_aggregate_errors=1
+let g:syntastic_echo_current_error=1
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
+let g:syntastic_enable_signs=1
+let g:syntastic_enable_balloons = 1
+let g:syntastic_enable_highlighting = 1
+let g:syntastic_always_populate_loc_list=1
+"let g:syntastic_auto_jump=1
+let g:syntastic_auto_loc_list=0
+let g:syntastic_loc_list_height=5
+let g:syntastic_ignore_files=['^/usr/include/', '\c\.h$']"
 
 " NERD COMMENTER
 let mapleader=","
@@ -303,7 +316,7 @@ function! s:ImplementDefinition()
   endif
   " Remove default parameters
   s/\s\{-}=\s\{-}[^,)]\{1,}//e
-  " Add class qualifier
+" Add class qualifier
   exe 'normal ^f(bi' . l:classString
   " Add brackets
   exe "normal $o{\<CR>\<TAB>\<CR>}\<CR>\<ESC>kkkk"
@@ -329,4 +342,26 @@ set timeout ttimeoutlen=50
 
 " vim-move
 let g:move_key_modifier = 'A'
+" rainbow braces
+let g:rainbow_active = 1
+" DoxygenToolkit
+let g:DoxygenToolkit_commentType = "C++"
+" YouCompleteMe
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_key_invoke_completion = '<C-Space>'
+let g:ycm_register_as_syntastic_checker = 1 "default 1
+let g:Show_diagnostics_ui = 1 "default 1
 
+"will put icons in Vim's gutter on lines that have a diagnostic set.
+""Turning this off will also turn off the YcmErrorLine and YcmWarningLine
+"highlighting
+let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_enable_diagnostic_highlighting = 0
+let g:ycm_always_populate_location_list = 1 "default 0
+let g:ycm_open_loclist_on_ycm_diags = 1 "default 1
+
+nnoremap <F11> :YcmForceCompileAndDiagnostics <CR>
+
+"Fuzzy Finder
+noremap <C-f> :FufRenewCache<CR>:FufFile<CR>
