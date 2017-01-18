@@ -1,0 +1,5 @@
+--ignore-file=is:tags
+--ignore-file=is:cscope.out
+--ignore-file=is:cscope.files
+--ignore-file=is:.cproject
+--ignore-file=is:.ycm_extra_conf.py
